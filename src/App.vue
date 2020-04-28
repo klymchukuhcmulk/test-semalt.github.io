@@ -223,10 +223,14 @@ export default {
         })
         return
       }
+      const url = this.searchUrl.trim()
+      if (url.length < 4) {
+        return
+      }
       if (this.radioInput === 2) {
         this.sitemap.forEach(item => {
           item.showOnList = true
-          if (item.fullPath.toLowerCase().indexOf(this.searchUrl.toLowerCase()) >= 0) {
+          if (item.fullPath.toLowerCase().indexOf(url.toLowerCase()) >= 0) {
             item.showOnList = false
           }
         })
@@ -234,7 +238,7 @@ export default {
       } else if (this.radioInput === 3) {
         this.sitemap.forEach(item => {
           item.showOnList = true
-          if (item.fullPath.toLowerCase() !== this.searchUrl.toLowerCase()) {
+          if (item.fullPath.toLowerCase() !== url.toLowerCase()) {
             item.showOnList = false
           }
         })
@@ -242,7 +246,7 @@ export default {
       }
       this.sitemap.forEach(item => {
         item.showOnList = true
-        if (item.fullPath.toLowerCase().indexOf(this.searchUrl.toLowerCase()) < 0) {
+        if (item.fullPath.toLowerCase().indexOf(url.toLowerCase()) < 0) {
           item.showOnList = false
         }
       })
