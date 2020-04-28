@@ -5,7 +5,15 @@ $color: rgb(57, 70, 77);
 $colorPrimary: rgb(61, 136, 204);
 $colorError: rgb(233, 113, 109);
 $colorPassive: rgb(196, 207, 222);
-
+textarea {
+  border: none;
+  outline: none;
+  resize: none;
+  width: 100%;
+}
+button {
+  outline: none;
+}
 .main {
   font-family: 'Lato', sans-serif;
   width: 1000px;
@@ -138,6 +146,7 @@ $colorPassive: rgb(196, 207, 222);
       width: 300px;
       height: 195px;
       padding: 5px;
+      z-index: 100;
       .radioButton {
         box-sizing: border-box;
         padding: 10px;
