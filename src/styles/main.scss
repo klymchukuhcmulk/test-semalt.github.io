@@ -1,0 +1,340 @@
+//=========================================Global=================================================
+$borderColor: rgb(210, 219, 230);
+$border: 1px solid $borderColor;
+$color: rgb(57, 70, 77);
+$colorPrimary: rgb(61, 136, 204);
+$colorError: rgb(233, 113, 109);
+$colorPassive: rgb(196, 207, 222);
+
+.main {
+  font-family: 'Lato', sans-serif;
+  width: 1000px;
+  min-height: 100px;
+  background-color: white;
+  border: 1px solid $borderColor;
+  border-radius: 8px;
+  margin: 100px auto 0 auto;
+  color: $color;
+}
+.error {
+  color: $colorError !important;
+}
+.success {
+  color: rgb(99, 199, 164) !important;
+}
+.primary {
+  color: $colorPrimary !important;
+}
+.passive {
+  color: $colorPassive;
+}
+.show {
+  display: block !important;
+}
+
+
+
+//=========================================Header=================================================
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  border-bottom: $border;
+  .main-header {
+    margin-left: 25px;
+    .icon-info {
+      margin-left: 10px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+  .functions {
+    cursor: pointer;
+    display: flex;
+    margin-right: 30px;
+    p {
+      margin-left: 30px;
+    }
+  }
+}
+
+//=========================================Filter=================================================
+@mixin radioBefore ($back) {
+  content: '';
+  display: inline-block;
+  position: relative;
+  top: 4px;
+  //width: 18px;
+  //height: 18px;
+  border-radius: 100px;
+  background: $back;
+  padding: 8px;
+  border: 3px solid $colorPrimary;
+  margin-right: 10px;
+  box-sizing: border-box;
+}
+
+%dropDown {
+  top: 30px;
+  position: absolute;
+  background: white;
+  border: $border;
+  border-radius: 5px;
+}
+.filters {
+  height: 80px;
+  width: 100%;
+  background-color: rgb(235, 237, 244);
+  border-bottom: $border;
+  .wrap {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 0 25px;
+    h4 {
+      margin: 0;
+    }
+  }
+}
+.filters-input {
+  display: flex;
+  justify-content: space-between;
+  .filters-item:first-child {
+    p {
+      padding-top: 15px;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .filters-item {
+    cursor: pointer;
+    background-color: white;
+    width: 175px;
+    max-height: 30px;
+    border: $border;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    p {
+      font-size: 13px;
+      margin: 10px;
+      width: 85%;
+    }
+    .arrow {
+      box-sizing: border-box;
+      width: 15%;
+      border-left: $border;
+      height: 100%;
+      padding: 6px 0 0 4px;
+      svg {
+        transform: rotate(180deg);
+      }
+    }
+    .dropDownFirst {
+      @extend %dropDown;
+      width: 300px;
+      height: 195px;
+      padding: 5px;
+      .radioButton {
+        box-sizing: border-box;
+        padding: 10px;
+        height: 52px;
+      }
+      .radioButton:before {
+        @include radioBefore(white);
+      }
+      .radioButtonActive:before {
+        @include radioBefore($colorPrimary);
+      }
+      .btn-block {
+        display: flex;
+        justify-content: space-between;
+        button {
+          background: white;
+          border: none;
+          margin: 10px;
+        }
+      }
+      .hr {
+        width: 100%;
+        border-bottom: $border;
+      }
+    }
+  }
+  .activeInput {
+    border: 1px solid $colorPrimary;
+    .arrow {
+      border-left: 1px solid $colorPrimary;
+      svg {
+        color: $colorPrimary;
+        transition: transform 0.2s;
+        transform: rotate(0deg);
+      }
+    }
+    .dropDownSec {
+      @extend %dropDown;
+      height: 110px;
+      width: 200px;
+      p {
+        height: 33%;
+        width: 100%;
+        margin: 0;
+        padding: 10px 15px;
+        box-sizing: border-box;
+      }
+      p:hover {
+        background: rgb(246, 248, 253);
+      }
+    }
+  }
+}
+//=========================================List Header=================================================
+.list-header {
+  display: flex;
+  justify-content: space-around;
+  background: rgb(246, 248, 253);
+}
+.checkboxDiv {
+  box-sizing: border-box;
+  width: 18px;
+  height: 18px !important;
+  margin: 27px 20px;
+  background: white;
+  border: 2px solid $borderColor;
+  border-radius: 2px;
+  position: relative;
+  svg {
+    position: absolute;
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
+}
+.allChecked {
+  border-color: transparent;
+  background: transparent;
+  svg {
+    color: $colorPrimary;
+    background: white;
+  }
+}
+
+
+.title {
+  background: rgb(246, 248, 253);
+  display: flex;
+  align-items: center;
+  .titleDiv {
+    text-align: center;
+  }
+  .checkbox {
+
+  }
+}
+//===========================================Elements Div==================================================
+.elementsDiv {
+  display: flex;
+}
+.elementsCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  div {
+    height: 100px;
+  }
+  h4 {
+    display: inline-block;
+    margin: 0;
+    padding: 20px auto;
+  }
+}
+.checkDiv {
+  width: 50px;
+}
+.sitemapDiv {
+  width: 180px;
+}
+.typeDiv {
+  width: 100px;
+}
+.lastSubmitDiv {
+  width: 100px;
+}
+.lastCheckDiv {
+  width: 100px;
+}
+.statusDiv {
+  width: 120px;
+}
+.urlsDiv {
+  width: 100px;
+}
+.recrewlDiv {
+  width: 180px;
+}
+.trashDiv {
+  width: 50px;
+}
+.elementsItem {
+  height: 100px;
+}
+
+.elementDiv {
+  text-align: center;
+  width: 100px;
+}
+.elementDiv1 {
+  width: 15%;
+  svg {
+    color: $colorPrimary;
+  }
+  p {
+    display: inline-block;
+    color: $colorPrimary;
+  }
+}
+.elementDiv2 {width: 100px;}
+.elementDiv3 {width: 12%;}
+.elementDiv4 {width: 12%;}
+.elementDiv5 {width: 120px;}
+.elementDiv6 {width: 120px;}
+.elementDiv7 {
+  width: 15%;
+  p {
+    color: $colorPrimary;
+    margin-left: 30px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border: 1px solid $colorPrimary;
+    border-radius: 3px;
+    width: 80px;
+  }
+  p:hover {
+    background: rgba(72, 175, 255, 0.23);
+  }
+}
+.elementDiv8 {
+  width: 90px;
+  svg {
+    cursor: pointer;
+    color: rgb(151, 161, 174);
+  }
+  svg:hover {
+    color: $colorError;
+  }
+}
+.element {
+  display: flex;
+  align-items: center;
+  &:not(:last-child) {
+    border-bottom: 1px solid #eeeeee;
+  }
+}
+.selectedEl {
+  background: rgb(234, 245, 254);
+}
+
+
