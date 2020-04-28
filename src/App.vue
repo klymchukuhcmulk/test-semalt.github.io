@@ -14,15 +14,15 @@
           <h4>Filters:</h4>
           <div class="filters-input">
             <div class="filters-item" :class="{activeInput : activeInput === 1}">
-              <p @click="setActiveInput(1)">URL or its part</p>
+              <p @click="setActiveInput(1)"><textarea class="passive" v-model="searchUrl" cols="3" rows="1" placeholder="URL or its part"></textarea></p>
               <div class="dropDownFirst" v-if="activeInput === 1">
                 <div class="radioButton" :class="{radioButtonActive : radioInput === 1}" @click="setActiveRadio(1)">Sitemap contains</div>
                 <div class="radioButton" :class="{radioButtonActive : radioInput === 2}" @click="setActiveRadio(2)">Sitemap doesn’t contain</div>
                 <div class="radioButton" :class="{radioButtonActive : radioInput === 3}" @click="setActiveRadio(3)">Exact match</div>
                 <div class="hr"></div>
                 <div class="btn-block">
-                  <button class="error" @click="radioInput = null">Reset</button>
-                  <button class="primary" @click="activeInput = null">Apply</button>
+                  <button class="error" @click="showUrl(1)">Reset</button>
+                  <button class="primary" @click="showUrl">Apply</button>
                 </div>
               </div>
             </div>
@@ -45,14 +45,14 @@
               </div>
             </div>
             <div class="filters-item" :class="{activeInput : activeInput === 5}" @click="setActiveInput(5)">
-              <p>All sitemaps</p>
+              <p>{{ searchErr }}</p>
               <div class="arrow">
                 <font-awesome-icon icon="chevron-up"/>
               </div>
               <div class="dropDownSec" v-if="activeInput === 5">
-                <p>Success</p>
-                <p>Couldn't fetch</p>
-                <p>Errors</p>
+                <p @click="showErr('Success')">Success</p>
+                <p @click="showErr('Couldn\'t fetch')">Couldn't fetch</p>
+                <p @click="showErr('Errors')">Errors</p>
               </div>
             </div>
           </div>
@@ -73,7 +73,7 @@
         <div class="titleDiv elementDiv7"><h4>Recrawl sitemap</h4></div>
         <div class="titleDiv elementDiv8"><h4>Remove sitemap</h4></div>
       </div>
-      <div class="element" :class="{ selectedEl : item.checked}" v-for="(item, i) in sitemap" :key="i">
+      <div class="element" :class="{ selectedEl : item.checked}" v-for="(item, i) in showSitemap" :key="i">
         <div class="checkbox">
           <div class="checkboxDiv" :class="{allChecked : item.checked || allChecked}" @click="!item.checked ? item.checked = true : item.checked = allChecked = false">
             <font-awesome-icon icon="check-square" v-if="item.checked || allChecked"/>
@@ -102,7 +102,9 @@ export default {
       sitemap: [],
       activeInput: null,
       setActive: null,
-      radioInput: null
+      radioInput: null,
+      searchUrl: '',
+      searchErr: 'All sitemaps'
     }
   },
   created () {
@@ -139,6 +141,15 @@ export default {
         }
       })
       return selected
+    },
+    showSitemap () {
+      const arr = []
+      this.sitemap.forEach(item => {
+        if (item.showOnList) {
+          arr.push(item)
+        }
+      })
+      return arr
     }
   },
   methods: {
@@ -165,7 +176,8 @@ export default {
         urls: item.urls.toLocaleString(),
         errors: item.errors === 0 ? 'Success' : item.errors + ' errors',
         checked: false,
-        isSitemapIndex: item.isSitemapsIndex
+        isSitemapIndex: item.isSitemapsIndex,
+        showOnList: true
       }
     },
     checkAll () {
@@ -191,6 +203,49 @@ export default {
           i--
         }
       }
+    },
+    showErr (str) {
+      this.sitemap.forEach(item => {
+        item.showOnList = true
+        this.searchErr = str
+        if (item.errors.toLowerCase().indexOf(str.toLowerCase()) < 0) {
+          item.showOnList = false
+        }
+      })
+    },
+    showUrl () {
+      this.activeInput = null
+      if (arguments[0] === 1) {
+        this.searchUrl = ''
+        this.radioInput = null
+        this.sitemap.forEach(item => {
+          item.showOnList = true
+        })
+        return
+      }
+      if (this.radioInput === 2) {
+        this.sitemap.forEach(item => {
+          item.showOnList = true
+          if (item.fullPath.toLowerCase().indexOf(this.searchUrl.toLowerCase()) >= 0) {
+            item.showOnList = false
+          }
+        })
+        return
+      } else if (this.radioInput === 3) {
+        this.sitemap.forEach(item => {
+          item.showOnList = true
+          if (item.fullPath.toLowerCase() !== this.searchUrl.toLowerCase()) {
+            item.showOnList = false
+          }
+        })
+        return
+      }
+      this.sitemap.forEach(item => {
+        item.showOnList = true
+        if (item.fullPath.toLowerCase().indexOf(this.searchUrl.toLowerCase()) < 0) {
+          item.showOnList = false
+        }
+      })
     }
   }
 }
